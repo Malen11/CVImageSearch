@@ -141,16 +141,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImageCompare.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="SearchSettingsForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FormHeaders.h" />
+    <ClInclude Include="ImageCompare.h" />
     <ClInclude Include="MainForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="SearchSettingsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchSettingsForm.resx">
+      <DependentUpon>SearchSettingsForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
