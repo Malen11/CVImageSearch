@@ -48,6 +48,9 @@ namespace CVImageSearch {
 	private: System::Windows::Forms::TextBox^  searchedImageNameTextBox;
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::TextBox^  foundImageNameTextBox;
+	private: System::Windows::Forms::TabControl^  mainTabControl;
+	private: System::Windows::Forms::TabPage^  tabPage1;
+	private: System::Windows::Forms::TabPage^  tabPage2;
 	private: System::Windows::Forms::Button^  searchSettingsButton;
 
 	public:
@@ -92,12 +95,17 @@ namespace CVImageSearch {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->foundPictureBox = (gcnew System::Windows::Forms::PictureBox());
 			this->foundImageNameTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->mainTabControl = (gcnew System::Windows::Forms::TabControl());
+			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->searchedPictureBox))->BeginInit();
 			this->groupBox2->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->foundPictureBox))->BeginInit();
+			this->mainTabControl->SuspendLayout();
+			this->tabPage1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// selectImageButton
@@ -118,9 +126,9 @@ namespace CVImageSearch {
 			this->groupBox1->Controls->Add(this->label3);
 			this->groupBox1->Controls->Add(this->searchedPictureBox);
 			this->groupBox1->Controls->Add(this->searchedImageNameTextBox);
-			this->groupBox1->Location = System::Drawing::Point(130, 12);
+			this->groupBox1->Location = System::Drawing::Point(124, 6);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(516, 325);
+			this->groupBox1->Size = System::Drawing::Size(500, 300);
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Искомое изображение";
@@ -128,7 +136,7 @@ namespace CVImageSearch {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(6, 295);
+			this->label3->Location = System::Drawing::Point(6, 278);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(85, 13);
 			this->label3->TabIndex = 7;
@@ -141,7 +149,7 @@ namespace CVImageSearch {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->searchedPictureBox->Location = System::Drawing::Point(6, 16);
 			this->searchedPictureBox->Name = L"searchedPictureBox";
-			this->searchedPictureBox->Size = System::Drawing::Size(504, 273);
+			this->searchedPictureBox->Size = System::Drawing::Size(488, 256);
 			this->searchedPictureBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::CenterImage;
 			this->searchedPictureBox->TabIndex = 2;
 			this->searchedPictureBox->TabStop = false;
@@ -150,10 +158,10 @@ namespace CVImageSearch {
 			// 
 			this->searchedImageNameTextBox->BackColor = System::Drawing::SystemColors::Control;
 			this->searchedImageNameTextBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->searchedImageNameTextBox->Location = System::Drawing::Point(97, 295);
+			this->searchedImageNameTextBox->Location = System::Drawing::Point(97, 278);
 			this->searchedImageNameTextBox->Name = L"searchedImageNameTextBox";
 			this->searchedImageNameTextBox->ReadOnly = true;
-			this->searchedImageNameTextBox->Size = System::Drawing::Size(413, 13);
+			this->searchedImageNameTextBox->Size = System::Drawing::Size(397, 13);
 			this->searchedImageNameTextBox->TabIndex = 6;
 			this->searchedImageNameTextBox->TabStop = false;
 			// 
@@ -177,9 +185,9 @@ namespace CVImageSearch {
 			this->groupBox2->Controls->Add(this->label1);
 			this->groupBox2->Controls->Add(this->searchDirectoryTextBox);
 			this->groupBox2->Controls->Add(this->findImagesListView);
-			this->groupBox2->Location = System::Drawing::Point(652, 12);
+			this->groupBox2->Location = System::Drawing::Point(630, 6);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(600, 657);
+			this->groupBox2->Size = System::Drawing::Size(600, 614);
 			this->groupBox2->TabIndex = 3;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Найденные файлы";
@@ -217,7 +225,7 @@ namespace CVImageSearch {
 			this->findImagesListView->Activation = System::Windows::Forms::ItemActivation::TwoClick;
 			this->findImagesListView->Location = System::Drawing::Point(6, 75);
 			this->findImagesListView->Name = L"findImagesListView";
-			this->findImagesListView->Size = System::Drawing::Size(588, 576);
+			this->findImagesListView->Size = System::Drawing::Size(588, 533);
 			this->findImagesListView->TabIndex = 3;
 			this->findImagesListView->UseCompatibleStateImageBehavior = false;
 			this->findImagesListView->View = System::Windows::Forms::View::List;
@@ -231,9 +239,9 @@ namespace CVImageSearch {
 			this->groupBox3->Controls->Add(this->searchImagesButton);
 			this->groupBox3->Controls->Add(this->selectImageButton);
 			this->groupBox3->Controls->Add(this->selectDirectoryButton);
-			this->groupBox3->Location = System::Drawing::Point(12, 12);
+			this->groupBox3->Location = System::Drawing::Point(6, 6);
 			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(112, 657);
+			this->groupBox3->Size = System::Drawing::Size(112, 622);
 			this->groupBox3->TabIndex = 4;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Меню";
@@ -241,7 +249,7 @@ namespace CVImageSearch {
 			// searchSettingsButton
 			// 
 			this->searchSettingsButton->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-			this->searchSettingsButton->Location = System::Drawing::Point(6, 187);
+			this->searchSettingsButton->Location = System::Drawing::Point(6, 247);
 			this->searchSettingsButton->Name = L"searchSettingsButton";
 			this->searchSettingsButton->Size = System::Drawing::Size(100, 50);
 			this->searchSettingsButton->TabIndex = 4;
@@ -268,9 +276,9 @@ namespace CVImageSearch {
 			this->groupBox4->Controls->Add(this->label4);
 			this->groupBox4->Controls->Add(this->foundPictureBox);
 			this->groupBox4->Controls->Add(this->foundImageNameTextBox);
-			this->groupBox4->Location = System::Drawing::Point(130, 344);
+			this->groupBox4->Location = System::Drawing::Point(124, 320);
 			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(516, 325);
+			this->groupBox4->Size = System::Drawing::Size(500, 300);
 			this->groupBox4->TabIndex = 3;
 			this->groupBox4->TabStop = false;
 			this->groupBox4->Text = L"Просмотр изображения";
@@ -278,7 +286,7 @@ namespace CVImageSearch {
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(6, 299);
+			this->label4->Location = System::Drawing::Point(6, 281);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(85, 13);
 			this->label4->TabIndex = 9;
@@ -291,7 +299,7 @@ namespace CVImageSearch {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->foundPictureBox->Location = System::Drawing::Point(6, 19);
 			this->foundPictureBox->Name = L"foundPictureBox";
-			this->foundPictureBox->Size = System::Drawing::Size(504, 274);
+			this->foundPictureBox->Size = System::Drawing::Size(488, 256);
 			this->foundPictureBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::CenterImage;
 			this->foundPictureBox->TabIndex = 2;
 			this->foundPictureBox->TabStop = false;
@@ -300,20 +308,49 @@ namespace CVImageSearch {
 			// 
 			this->foundImageNameTextBox->BackColor = System::Drawing::SystemColors::Control;
 			this->foundImageNameTextBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->foundImageNameTextBox->Location = System::Drawing::Point(97, 299);
+			this->foundImageNameTextBox->Location = System::Drawing::Point(97, 281);
 			this->foundImageNameTextBox->Name = L"foundImageNameTextBox";
 			this->foundImageNameTextBox->ReadOnly = true;
-			this->foundImageNameTextBox->Size = System::Drawing::Size(413, 13);
+			this->foundImageNameTextBox->Size = System::Drawing::Size(397, 13);
 			this->foundImageNameTextBox->TabIndex = 8;
 			this->foundImageNameTextBox->TabStop = false;
 			// 
+			// mainTabControl
+			// 
+			this->mainTabControl->Controls->Add(this->tabPage1);
+			this->mainTabControl->Controls->Add(this->tabPage2);
+			this->mainTabControl->Location = System::Drawing::Point(12, 12);
+			this->mainTabControl->Name = L"mainTabControl";
+			this->mainTabControl->SelectedIndex = 0;
+			this->mainTabControl->Size = System::Drawing::Size(1237, 657);
+			this->mainTabControl->TabIndex = 5;
+			// 
+			// tabPage1
+			// 
+			this->tabPage1->BackColor = System::Drawing::SystemColors::Control;
+			this->tabPage1->Controls->Add(this->groupBox3);
+			this->tabPage1->Controls->Add(this->groupBox4);
+			this->tabPage1->Controls->Add(this->groupBox2);
+			this->tabPage1->Controls->Add(this->groupBox1);
+			this->tabPage1->Location = System::Drawing::Point(4, 22);
+			this->tabPage1->Name = L"tabPage1";
+			this->tabPage1->Size = System::Drawing::Size(1229, 631);
+			this->tabPage1->TabIndex = 0;
+			this->tabPage1->Text = L"Поиск изображения";
+			// 
+			// tabPage2
+			// 
+			this->tabPage2->Location = System::Drawing::Point(4, 22);
+			this->tabPage2->Name = L"tabPage2";
+			this->tabPage2->Size = System::Drawing::Size(1229, 631);
+			this->tabPage2->TabIndex = 0;
+			this->tabPage2->Text = L"tabPage2";
+			this->tabPage2->UseVisualStyleBackColor = true;
+			// 
 			// MainForm
 			// 
-			this->ClientSize = System::Drawing::Size(1261, 681);
-			this->Controls->Add(this->groupBox4);
-			this->Controls->Add(this->groupBox3);
-			this->Controls->Add(this->groupBox2);
-			this->Controls->Add(this->groupBox1);
+			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->mainTabControl);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MaximizeBox = false;
 			this->Name = L"MainForm";
@@ -328,6 +365,8 @@ namespace CVImageSearch {
 			this->groupBox4->ResumeLayout(false);
 			this->groupBox4->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->foundPictureBox))->EndInit();
+			this->mainTabControl->ResumeLayout(false);
+			this->tabPage1->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
