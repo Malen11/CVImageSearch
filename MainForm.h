@@ -2,6 +2,7 @@
 #include "FormHeaders.h"
 #include "ImageCompare.h"
 #include "SearchSettingsForm.h"
+#include "PleaseWaitForm.h"
 
 namespace CVImageSearch {
 
@@ -23,8 +24,8 @@ namespace CVImageSearch {
 		int descriptorType = DescriptorType::ORB;
 		int comparisionType = ComparisionType::HAMMING;
 		double threshold = 0.70;
-		int distanceWindow = 75;
-		int featuresNum = 100;
+		double checkedPointsProc = 0.75;
+		double allowedError = 2;
 
 		String^ searchFolderName;
 		String^ searchFileName;
@@ -48,6 +49,18 @@ namespace CVImageSearch {
 	private: System::Windows::Forms::TextBox^  searchedImageNameTextBox;
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::TextBox^  foundImageNameTextBox;
+	private: System::Windows::Forms::GroupBox^  groupBox5;
+	private: System::Windows::Forms::Label^  label5;
+	private: System::Windows::Forms::Label^  label6;
+	private: System::Windows::Forms::Label^  label7;
+	private: System::Windows::Forms::TextBox^  filesNumTextBox;
+
+
+	private: System::Windows::Forms::TextBox^  timeTextBox;
+	private: System::Windows::Forms::TextBox^  dublicatesNumTextBox;
+
+
+
 	private: System::Windows::Forms::Button^  searchSettingsButton;
 
 	public:
@@ -92,12 +105,20 @@ namespace CVImageSearch {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->foundPictureBox = (gcnew System::Windows::Forms::PictureBox());
 			this->foundImageNameTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
+			this->dublicatesNumTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->filesNumTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->timeTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->searchedPictureBox))->BeginInit();
 			this->groupBox2->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->foundPictureBox))->BeginInit();
+			this->groupBox5->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// selectImageButton
@@ -179,7 +200,7 @@ namespace CVImageSearch {
 			this->groupBox2->Controls->Add(this->findImagesListView);
 			this->groupBox2->Location = System::Drawing::Point(652, 12);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(600, 657);
+			this->groupBox2->Size = System::Drawing::Size(440, 657);
 			this->groupBox2->TabIndex = 3;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Найденные файлы";
@@ -208,19 +229,21 @@ namespace CVImageSearch {
 			this->searchDirectoryTextBox->Location = System::Drawing::Point(132, 16);
 			this->searchDirectoryTextBox->Name = L"searchDirectoryTextBox";
 			this->searchDirectoryTextBox->ReadOnly = true;
-			this->searchDirectoryTextBox->Size = System::Drawing::Size(462, 20);
+			this->searchDirectoryTextBox->Size = System::Drawing::Size(302, 20);
 			this->searchDirectoryTextBox->TabIndex = 4;
 			this->searchDirectoryTextBox->DoubleClick += gcnew System::EventHandler(this, &MainForm::selectDirectoryButton_Click);
 			// 
 			// findImagesListView
 			// 
 			this->findImagesListView->Activation = System::Windows::Forms::ItemActivation::TwoClick;
+			this->findImagesListView->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::None;
 			this->findImagesListView->Location = System::Drawing::Point(6, 75);
+			this->findImagesListView->MultiSelect = false;
 			this->findImagesListView->Name = L"findImagesListView";
-			this->findImagesListView->Size = System::Drawing::Size(588, 576);
+			this->findImagesListView->Size = System::Drawing::Size(428, 576);
 			this->findImagesListView->TabIndex = 3;
 			this->findImagesListView->UseCompatibleStateImageBehavior = false;
-			this->findImagesListView->View = System::Windows::Forms::View::List;
+			this->findImagesListView->View = System::Windows::Forms::View::Details;
 			this->findImagesListView->ItemActivate += gcnew System::EventHandler(this, &MainForm::findImagesListView_ItemActivate);
 			// 
 			// groupBox3
@@ -307,9 +330,88 @@ namespace CVImageSearch {
 			this->foundImageNameTextBox->TabIndex = 8;
 			this->foundImageNameTextBox->TabStop = false;
 			// 
+			// groupBox5
+			// 
+			this->groupBox5->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->groupBox5->Controls->Add(this->dublicatesNumTextBox);
+			this->groupBox5->Controls->Add(this->label7);
+			this->groupBox5->Controls->Add(this->filesNumTextBox);
+			this->groupBox5->Controls->Add(this->timeTextBox);
+			this->groupBox5->Controls->Add(this->label5);
+			this->groupBox5->Controls->Add(this->label6);
+			this->groupBox5->Location = System::Drawing::Point(1098, 12);
+			this->groupBox5->Name = L"groupBox5";
+			this->groupBox5->Size = System::Drawing::Size(151, 657);
+			this->groupBox5->TabIndex = 7;
+			this->groupBox5->TabStop = false;
+			this->groupBox5->Text = L"Статистика";
+			// 
+			// dublicatesNumTextBox
+			// 
+			this->dublicatesNumTextBox->BackColor = System::Drawing::SystemColors::Control;
+			this->dublicatesNumTextBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->dublicatesNumTextBox->Location = System::Drawing::Point(12, 96);
+			this->dublicatesNumTextBox->Name = L"dublicatesNumTextBox";
+			this->dublicatesNumTextBox->ReadOnly = true;
+			this->dublicatesNumTextBox->Size = System::Drawing::Size(133, 13);
+			this->dublicatesNumTextBox->TabIndex = 10;
+			this->dublicatesNumTextBox->TabStop = false;
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Location = System::Drawing::Point(6, 80);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(142, 13);
+			this->label7->TabIndex = 9;
+			this->label7->Text = L"Всего файлов-дубликатов:";
+			// 
+			// filesNumTextBox
+			// 
+			this->filesNumTextBox->BackColor = System::Drawing::SystemColors::Control;
+			this->filesNumTextBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->filesNumTextBox->Location = System::Drawing::Point(12, 64);
+			this->filesNumTextBox->Name = L"filesNumTextBox";
+			this->filesNumTextBox->ReadOnly = true;
+			this->filesNumTextBox->Size = System::Drawing::Size(133, 13);
+			this->filesNumTextBox->TabIndex = 8;
+			this->filesNumTextBox->TabStop = false;
+			// 
+			// timeTextBox
+			// 
+			this->timeTextBox->BackColor = System::Drawing::SystemColors::Control;
+			this->timeTextBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->timeTextBox->Location = System::Drawing::Point(12, 32);
+			this->timeTextBox->Name = L"timeTextBox";
+			this->timeTextBox->ReadOnly = true;
+			this->timeTextBox->Size = System::Drawing::Size(133, 13);
+			this->timeTextBox->TabIndex = 7;
+			this->timeTextBox->TabStop = false;
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Location = System::Drawing::Point(6, 48);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(81, 13);
+			this->label5->TabIndex = 6;
+			this->label5->Text = L"Всего файлов:";
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Location = System::Drawing::Point(6, 16);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(98, 13);
+			this->label6->TabIndex = 5;
+			this->label6->Text = L"Время работы (с):";
+			// 
 			// MainForm
 			// 
 			this->ClientSize = System::Drawing::Size(1261, 681);
+			this->Controls->Add(this->groupBox5);
 			this->Controls->Add(this->groupBox4);
 			this->Controls->Add(this->groupBox3);
 			this->Controls->Add(this->groupBox2);
@@ -328,6 +430,8 @@ namespace CVImageSearch {
 			this->groupBox4->ResumeLayout(false);
 			this->groupBox4->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->foundPictureBox))->EndInit();
+			this->groupBox5->ResumeLayout(false);
+			this->groupBox5->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -338,7 +442,7 @@ namespace CVImageSearch {
 
 			OpenFileDialog^ openFileDialog = gcnew OpenFileDialog;
 
-			openFileDialog->Filter = "jpg (*.jpg)|*.jpg|png (*.png)|*.png|All files (*.*)|*.*";
+			openFileDialog->Filter = "jpg (*.jpg)|*.jpg|png (*.png)|*.png|bmp (*.bmp)|*.bmp|All files (*.*)|*.*";
 			openFileDialog->FilterIndex = 1;
 			openFileDialog->RestoreDirectory = true;
 
@@ -346,23 +450,10 @@ namespace CVImageSearch {
 			{
 				searchFileName = openFileDialog->FileName;
 				String^ tmp = searchFileName;
-				cv::Mat img;
-				cv::Mat imgResised;
-				double scaleWidth, scaleHeight, imageScale;
+				cv::Mat img = cv::imread(msclr::interop::marshal_as<std::string>(tmp), CV_LOAD_IMAGE_COLOR);
 
-				img = cv::imread(msclr::interop::marshal_as<std::string>(tmp), CV_LOAD_IMAGE_COLOR);
+				this->showImage(img, searchedPictureBox);
 
-				scaleWidth = (double)img.cols / (searchedPictureBox->Width - 10);
-				scaleHeight = (double)img.rows / (searchedPictureBox->Height - 10);
-
-				imageScale = scaleWidth > scaleHeight ? scaleWidth : scaleHeight;
-				cv::resize(img, imgResised, cv::Size(img.cols * (1.0 / imageScale), img.rows * (1.0 / imageScale)));
-
-				cv::cvtColor(imgResised, imgResised, CV_RGB2RGBA);
-				HBITMAP hBit = CreateBitmap(imgResised.cols, imgResised.rows, 1, 32, imgResised.data);
-				Bitmap^ bmp = Bitmap::FromHbitmap((IntPtr)hBit);
-
-				searchedPictureBox->Image = bmp;
 				searchedImageNameTextBox->Text = searchFileName;
 			}
 		}
@@ -385,6 +476,9 @@ namespace CVImageSearch {
 		}
 
 		System::Void searchImagesButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+			PleaseWaitForm^ pWForm = gcnew PleaseWaitForm();
+			Diagnostics::Stopwatch^ stopWatch = gcnew Diagnostics::Stopwatch();
 
 			try {
 
@@ -414,24 +508,40 @@ namespace CVImageSearch {
 					}
 
 					String^ fileType = file->Substring(file->LastIndexOf('.') + 1);
-					if (fileType != "jpg") {
-						continue;
+					if (fileType == "jpg" || fileType == "png" || fileType == "bmp") {
+						checkedImageNames.push_back(msclr::interop::marshal_as<std::string>(file));
 					}
 
-					checkedImageNames.push_back(msclr::interop::marshal_as<std::string>(file));
 				}
+
+				// Display form modelessly
+				pWForm->Show();
+
+				//  ALlow main UI thread to properly display please wait form.
+				System::Windows::Forms::Application::DoEvents();
 
 				//получаем список похожих изображений
-				std::vector<std::string> foundImageNames = ImageCompare::GetSimilarityImages(searchedImageName, checkedImageNames, threshold, descriptorType, comparisionType, distanceWindow, featuresNum);
+				stopWatch->Start();
+				std::vector<std::string> foundImageNames = ImageCompare::GetSimilarityImages(searchedImageName, checkedImageNames, threshold, descriptorType, comparisionType, checkedPointsProc, allowedError);
+				stopWatch->Stop();
+
+				pWForm->Close();
 
 				//выводим
-				findImagesListView->Clear();
+				List<String^>^  imageNames = gcnew List<String^>();
 				for each (std::string imageName in foundImageNames) {
-					findImagesListView->Items->Add(msclr::interop::marshal_as<String^>(imageName));
+					imageNames->Add(msclr::interop::marshal_as<String^>(imageName));
 				}
+
+				this->PopulateImages(imageNames);
+				filesNumTextBox->Text = checkedImageNames.size().ToString();
+				dublicatesNumTextBox->Text = foundImageNames.size().ToString();
+				timeTextBox->Text = (stopWatch->Elapsed.Minutes * 60 + stopWatch->Elapsed.Seconds).ToString();
 			}
 			catch (Exception^ ex) {
 				MessageBox::Show(this, ex->Message, "Ошибка", MessageBoxButtons::OK);
+
+				pWForm->Close();
 			}
 		}
 
@@ -439,15 +549,58 @@ namespace CVImageSearch {
 
 			int i = findImagesListView->SelectedIndices[0];
 			String^ foundFileName = findImagesListView->Items[i]->Text;
+			cv::Mat img = cv::imread(msclr::interop::marshal_as<std::string>(foundFileName), CV_LOAD_IMAGE_COLOR);
 
-			cv::Mat img;
+			this->showImage(img, foundPictureBox);
+
+			foundImageNameTextBox->Text = foundFileName;
+		}
+
+		System::Void searchSettingsButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+			SearchSettingsForm^ form = gcnew SearchSettingsForm(descriptorType, comparisionType, threshold, checkedPointsProc, allowedError);
+
+			if (form->ShowDialog() == Windows::Forms::DialogResult::OK) {
+				
+				this->descriptorType = form->descriptorType;
+				this->comparisionType = form->comparisionType;
+				this->allowedError = form->allowedError;
+				this->threshold = form->thresholdPercent / 100.0;
+				this->checkedPointsProc = form->checkedPointsProc / 100.0;
+			}
+		}
+
+		System::Void PopulateImages(System::Collections::Generic::List<System::String^>^  imageNames) {
+
+			findImagesListView->Clear();
+			findImagesListView->Columns->Add("Icon", -2, HorizontalAlignment::Center);
+			findImagesListView->Columns->Add("Name", -2, HorizontalAlignment::Left);
+
+			ImageList^ imageList = gcnew ImageList();
+			imageList->ImageSize = System::Drawing::Size(100, 100);
+			imageList->ColorDepth = System::Windows::Forms::ColorDepth::Depth32Bit;
+
+			for each (auto imageName in imageNames)
+			{
+				imageList->Images->Add(Image::FromFile(imageName));
+			}
+
+			findImagesListView->SmallImageList = imageList;
+
+			int i = 0;
+			for each (auto imageName in imageNames)
+			{
+				findImagesListView->Items->Add(imageName, i++);
+			}
+		}
+
+		System::Void showImage(cv::Mat img, System::Windows::Forms::PictureBox^ pictureBox) {
+
 			cv::Mat imgResised;
 			double scaleWidth, scaleHeight, imageScale;
 
-			img = cv::imread(msclr::interop::marshal_as<std::string>(foundFileName), CV_LOAD_IMAGE_COLOR);
-
-			scaleWidth = (double)img.cols / (foundPictureBox->Width - 10);
-			scaleHeight = (double)img.rows / (foundPictureBox->Height - 10);
+			scaleWidth = (double)img.cols / (pictureBox->Width - 10);
+			scaleHeight = (double)img.rows / (pictureBox->Height - 10);
 
 			imageScale = scaleWidth > scaleHeight ? scaleWidth : scaleHeight;
 			cv::resize(img, imgResised, cv::Size(img.cols * (1.0 / imageScale), img.rows * (1.0 / imageScale)));
@@ -456,22 +609,8 @@ namespace CVImageSearch {
 			HBITMAP hBit = CreateBitmap(imgResised.cols, imgResised.rows, 1, 32, imgResised.data);
 			Bitmap^ bmp = Bitmap::FromHbitmap((IntPtr)hBit);
 
-			foundPictureBox->Image = bmp;
-			foundImageNameTextBox->Text = foundFileName;
-		}
-
-		System::Void searchSettingsButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
-			SearchSettingsForm^ form = gcnew SearchSettingsForm(descriptorType, comparisionType, threshold, distanceWindow, featuresNum);
-
-			if (form->ShowDialog() == Windows::Forms::DialogResult::OK) {
-				
-				this->descriptorType = form->descriptorType;
-				this->comparisionType = form->comparisionType;
-				this->featuresNum = form->featuresNum;
-				this->threshold = form->thresholdPercent / 100.0;
-				this->distanceWindow = form->distanceWindow;
-			}
+			pictureBox->Image = bmp;
+			pictureBox->Text = searchFileName;
 		}
 	};
 }

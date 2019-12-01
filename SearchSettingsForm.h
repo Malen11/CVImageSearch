@@ -22,19 +22,19 @@ namespace CVImageSearch {
 		int descriptorType;
 		int comparisionType;
 		int thresholdPercent;
-		int distanceWindow;
-		int featuresNum;
+		int checkedPointsProc;
+		int allowedError;
 
 	public:
-		SearchSettingsForm(int descriptorType, int comparisionType, double threshold, int distanceWindow, int featuresNum)
+		SearchSettingsForm(int descriptorType, int comparisionType, double threshold, double checkedPoints, int featuresNum)
 		{
 			InitializeComponent();
 
 			this->descriptorType = descriptorType;
 			this->comparisionType = comparisionType;
 			this->thresholdPercent = threshold * 100;
-			this->distanceWindow = distanceWindow;
-			this->featuresNum = featuresNum;
+			this->checkedPointsProc = checkedPoints * 100;
+			this->allowedError = allowedError;
 
 
 			for each (auto descriptorTypePair in ImageCompare::GetDescriptorTypeAsMap())
@@ -53,7 +53,7 @@ namespace CVImageSearch {
 
 			similarityTypeNumericUpDown->Value = thresholdPercent;
 			featuresNumberNumericUpDown->Value = featuresNum;
-			distanceWindowNumericUpDown->Value = distanceWindow;
+			distanceWindowNumericUpDown->Value = checkedPointsProc;
 		}
 
 	protected:
@@ -162,23 +162,22 @@ namespace CVImageSearch {
 			this->label4->AutoSize = true;
 			this->label4->Location = System::Drawing::Point(12, 114);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(132, 13);
+			this->label4->Size = System::Drawing::Size(178, 13);
 			this->label4->TabIndex = 5;
-			this->label4->Text = L"Допустимое отклонение";
+			this->label4->Text = L"Рассматриваемый процент точек";
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
 			this->label6->Location = System::Drawing::Point(264, 62);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(130, 13);
+			this->label6->Size = System::Drawing::Size(132, 13);
 			this->label6->TabIndex = 13;
-			this->label6->Text = L"Количество признаков *";
+			this->label6->Text = L"Допустимое отклонение";
 			// 
 			// distanceWindowNumericUpDown
 			// 
 			this->distanceWindowNumericUpDown->Location = System::Drawing::Point(12, 130);
-			this->distanceWindowNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 			this->distanceWindowNumericUpDown->Name = L"distanceWindowNumericUpDown";
 			this->distanceWindowNumericUpDown->Size = System::Drawing::Size(155, 20);
 			this->distanceWindowNumericUpDown->TabIndex = 15;
@@ -193,7 +192,7 @@ namespace CVImageSearch {
 			// featuresNumberNumericUpDown
 			// 
 			this->featuresNumberNumericUpDown->Location = System::Drawing::Point(267, 78);
-			this->featuresNumberNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+			this->featuresNumberNumericUpDown->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->featuresNumberNumericUpDown->Name = L"featuresNumberNumericUpDown";
 			this->featuresNumberNumericUpDown->Size = System::Drawing::Size(155, 20);
 			this->featuresNumberNumericUpDown->TabIndex = 17;
@@ -270,8 +269,8 @@ namespace CVImageSearch {
 			}
 
 			this->thresholdPercent = (int)similarityTypeNumericUpDown->Value;
-			this->featuresNum = (int)featuresNumberNumericUpDown->Value;
-			this->distanceWindow = (int)distanceWindowNumericUpDown->Value;
+			this->allowedError = (int)featuresNumberNumericUpDown->Value;
+			this->checkedPointsProc = (int)distanceWindowNumericUpDown->Value;
 			
 			this->DialogResult = Windows::Forms::DialogResult::OK;
 			this->Close();

@@ -10,16 +10,17 @@ namespace CVImageSearch {
 	enum DescriptorType {
 		ORB = 0,
 		KAZE = 1,
-		AKAZE = 2
+		AKAZE = 2,
+		BRISK = 3
 	};
 
 	enum ComparisionType {
-		FLANNBASED = 0,
-		BRUTEFORCE = 1,
-		L1 = 2,
-		HAMMING = 3,
-		HAMMINGLUT = 4,
-		SL2 = 5
+		BRUTEFORCE = 0,
+		HAMMING = 1,
+		HAMMINGLUT = 2,
+		//FLANNBASED = 3,
+		//L1 = 4,
+		//SL2 = 5
 	};
 
 	ref class ImageCompare
@@ -39,8 +40,8 @@ namespace CVImageSearch {
 			double threshold,
 			int descriptorType,
 			int ComparisionType,
-			int distanceWindow,
-			int featuresNum
+			double checkedPointsProc, 
+			double allowedError
 		);
 
 		static std::map<DescriptorType, std::string> GetDescriptorTypeAsMap();
